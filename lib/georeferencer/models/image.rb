@@ -24,5 +24,10 @@ module Georeferencer
       end
       {lat: (slat+nlat)/2, lng: (wlng+elng)/2}
     end
+
+    def url(width=200,height=nil)
+      [image[:url],'full',"#{width},#{height}",0,'default.jpg'].join("/")
+
+    end
   end
 end
