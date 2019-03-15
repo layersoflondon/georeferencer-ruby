@@ -56,6 +56,7 @@ module Georeferencer
   end
 end
 
+require 'georeferencer/version'
 require_rel 'georeferencer/mixins'
 require_rel 'georeferencer/middleware'
 require_rel 'georeferencer/models'
