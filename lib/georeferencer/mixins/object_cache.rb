@@ -25,6 +25,8 @@ module Georeferencer
 
     module ClassMethods
 
+      attr_accessor :perform_object_caching
+
       # Base of the cache key for this class.
       def cache_key_base
         "georeferencer/#{Georeferencer::VERSION}/#{self.to_s.underscore}"
@@ -32,7 +34,7 @@ module Georeferencer
 
       # Redeclare the find() method, with caching. Only pass uncached keys to the super method.
       def find(*ids)
-        if Georeferencer.configuration.perform_caching
+        if Georeferencer.configuration.perform_caching && perform_object_caching != false
           ids.uniq!
           uncached_ids = ids.reject {|i| Georeferencer.configuration.cache.read("#{cache_key_base}/#{i}").present?}
           [super(*uncached_ids)].flatten.reject(&:blank?).collect do |object|
