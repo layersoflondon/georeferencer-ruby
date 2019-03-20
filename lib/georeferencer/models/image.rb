@@ -6,10 +6,6 @@ module Georeferencer
     collection_path "display"
     resource_path "maps/:id"
 
-    default_scope -> {
-      where(format: 'json')
-    }
-
     scope :unreferenced, -> {
       where(state: 'waiting')
     }
@@ -17,17 +13,14 @@ module Georeferencer
     def centroid
       # Data from the collection endpoint doesn't include the bounding box, so we need to check we have the full data,
       # or reload (which hits the resource endpoint) if not
-      if respond_to?(:bbox)
-        (wlng, slat, elng, nlat) = bbox
-      else
-        (wlng, slat, elng, nlat) = reload.bbox
-      end
+      (wlng, slat, elng, nlat) = respond_to?(:bbox) ? bbox : reload.bbox
+
       {lat: (slat+nlat)/2, lng: (wlng+elng)/2}
     end
 
     def url(width=200,height=nil)
       [image[:url],'full',"#{width},#{height}",0,'default.jpg'].join("/")
-
     end
+
   end
 end

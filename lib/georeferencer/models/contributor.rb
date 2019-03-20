@@ -4,8 +4,5 @@ module Georeferencer
 
     collection_path "contributors"
 
-    default_scope -> {
-      where(format: 'json')
-    }
   end
 end
