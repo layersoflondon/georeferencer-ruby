@@ -4,7 +4,6 @@ module Georeferencer
 
     collection_path "progress"
     resource_path "progress?collection=:id"
-    self.perform_object_caching = false
 
 
     def self.all
