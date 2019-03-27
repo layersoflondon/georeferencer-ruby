@@ -26,7 +26,11 @@ module Georeferencer
           end
         end
 
+        if @parent.preload_resources == true
+          Her::Collection.new(@_collection.collect(&:reload), metadata)
+        else
           Her::Collection.new(@_collection, metadata)
+        end
 
 
       else
