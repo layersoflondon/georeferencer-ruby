@@ -13,7 +13,12 @@ module Georeferencer
     def centroid
       # Data from the collection endpoint doesn't include the bounding box, so we need to check we have the full data,
       # or reload (which hits the resource endpoint) if not
-      (wlng, slat, elng, nlat) = respond_to?(:bbox) ? bbox : reload.bbox
+      unless (respond_to?(:bbox) && !bbox.nil?)
+        expire_cache!
+        reload
+      end
+      (wlng, slat, elng, nlat) = bbox
+
 
       {lat: (slat+nlat)/2, lng: (wlng+elng)/2}
     end
