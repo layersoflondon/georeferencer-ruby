@@ -19,7 +19,7 @@ module Georeferencer
     end
 
     def url(width=200,height=nil)
-      [image[:url],'full',"#{width},#{height}",0,'default.jpg'].join("/")
+      [thumbnail[:url],'full',"#{width},#{height}",0,'default.jpg'].join("/")
     end
 
   end
