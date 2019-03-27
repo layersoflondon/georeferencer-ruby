@@ -17,6 +17,10 @@ module Georeferencer
         body.merge!({metadata: {start: start}})
         env[:body] = body
       else
+        # Progress doesn't have an id; set the id to the collection
+        if env.url.path =~ /progress/
+          json.merge!({id: Faraday::Utils.parse_query(env.url.query)["collection"]})
+        end
         env[:body] = {
           data: json.with_indifferent_access
         }
